@@ -1,4 +1,4 @@
-const apiKey =9842f6aa0a14635920ea1b4cd8aa8c52;
+const apiKey = "e9813b0de9af434c0162a6395b516c55";
 
 async function getWeather(city) {
   try {
@@ -10,7 +10,7 @@ async function getWeather(city) {
 
     const data = await res.json();
 
-    console.log(data); // for testing
+    console.log(data);
 
     showWeather(data);
 
