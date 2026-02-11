@@ -1,22 +1,29 @@
-const apiKey = "e9813b0de9af434c0162a6395b516c55"; // in quotes
-
 async function getWeather() {
-    const city = document.getElementById("city").value;
+  const city = document.getElementById("city").value;
 
-    if (!city) {
-        alert("Please enter a city");
-        return;
+  if (!city) {
+    alert("Enter city name");
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/weather?city=${city}`);
+    const data = await res.json();
+
+    if (data.error) {
+      document.getElementById("result").innerText = "❌ City not found";
+      return;
     }
 
-    try {
-        const res = await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
-        );
+    document.getElementById("result").innerHTML = `
+      <h3>${data.name}</h3>
+      <p>🌡️ ${data.main.temp} °C</p>
+      <p>${data.weather[0].description}</p>
+      <p>💧 ${data.main.humidity}%</p>
+    `;
 
-        if (!res.ok) throw new Error("City not found");
-
-        const data = await res.json();
-
-        const html = `
-            <h3>${data.name}</h3>
-            <p
+  } catch {
+    document.getElementById("result").innerText =
+      "⚠️ Server error";
+  }
+}
